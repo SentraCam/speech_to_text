@@ -3,12 +3,11 @@
 // This must be included before many other Windows headers.
 #include <windows.h>
 
-// For getPlatformVersion; remove unless needed for your plugin implementation.
-#include <VersionHelpers.h>
-
 #include <flutter/method_channel.h>
 #include <flutter/plugin_registrar_windows.h>
 #include <flutter/standard_method_codec.h>
+
+#include <string>
 
 #include <memory>
 #include <sstream>
@@ -40,18 +39,28 @@ SpeechToTextPlugin::~SpeechToTextPlugin() {}
 void SpeechToTextPlugin::HandleMethodCall(
     const flutter::MethodCall<flutter::EncodableValue> &method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
-  if (method_call.method_name().compare("getPlatformVersion") == 0) {
-    std::ostringstream version_stream;
-    version_stream << "Windows ";
-    if (IsWindows10OrGreater()) {
-      version_stream << "10+";
-    } else if (IsWindows8OrGreater()) {
-      version_stream << "8";
-    } else if (IsWindows7OrGreater()) {
-      version_stream << "7";
-    }
-    result->Success(flutter::EncodableValue(version_stream.str()));
-  } else {
+  
+  const std::string methodName = method_call.method_name();
+
+  if (methodName.compare(SpeechToTextPlugin::hasPermissionMethod) == 0) {
+   result->NotImplemented();
+  } 
+  else if (methodName.compare(SpeechToTextPlugin::initializeMethod) == 0) {
+   result->NotImplemented();
+  } 
+  else if (methodName.compare(SpeechToTextPlugin::listenMethod) == 0) {
+   result->NotImplemented();
+  } 
+  else if (methodName.compare(SpeechToTextPlugin::stopMethod) == 0){
+    result->NotImplemented();
+  }
+   else if (methodName.compare(SpeechToTextPlugin::cancelMethod) == 0){
+    result->NotImplemented();
+  }
+   else if (methodName.compare(SpeechToTextPlugin::localesMethod) == 0){
+    result->NotImplemented();
+  }
+  else {
     result->NotImplemented();
   }
 }

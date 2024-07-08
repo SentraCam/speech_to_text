@@ -4,6 +4,8 @@
 #include <flutter/method_channel.h>
 #include <flutter/plugin_registrar_windows.h>
 
+#include <string>
+
 #include <memory>
 
 namespace speech_to_text {
@@ -24,6 +26,21 @@ class SpeechToTextPlugin : public flutter::Plugin {
   void HandleMethodCall(
       const flutter::MethodCall<flutter::EncodableValue> &method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+
+    const std::string hasPermissionMethod = "has_permission";
+    const std::string initializeMethod = "initialize";
+    const std::string listenMethod = "listen";
+    const std::string stopMethod = "stop";
+    const std::string cancelMethod = "cancel";
+    const std::string localesMethod = "locales";
+    const std::string textRecognitionMethod = "textRecognition";
+    const std::string notifyErrorMethod = "notifyError";
+    const std::string notifyStatusMethod = "notifyStatus";
+    const std::string soundLevelChangeMethod = "soundLevelChange";
+    const std::string listeningStatus = "listening";
+    const std::string notListeningStatus = "notListening";
+    const std::string doneStatus = "done";
+
 };
 
 }  // namespace speech_to_text

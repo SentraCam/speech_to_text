@@ -17,18 +17,41 @@
 #include <sphelper.h>
 #include <stdio.h>
 #include "tom.h"
+#include "recomgr.h"
 
+
+// Flags that determine the state of the app
+typedef enum DPFLAGS
+{
+    DP_DICTATION_MODE     = ( 1L << 0 ),    // Toggles between dictation and command mode
+    DP_WHOLE_WORD_SEL     = ( 1L << 1 ),    // Indicates that whole words should be selected
+    DP_MICROPHONE_ON      = ( 1L << 2 ),    // Indicates that the "mic" is on (really that 
+                                            // the appropriate grammars are active
+    DP_SHARED_RECOGNIZER  = ( 1L << 3 ),    // Shared reco engine (false if engine is inproc)
+    DP_IS_SPEAKING        = ( 1L << 4 ),    // Indicates that we are in the midst of a playback
+    DP_GRAMMARS_ACTIVE    = ( 1L << 5 ),    // Indicates the the "mic" is on
+    DP_JUST_PASTED_TEXT   = ( 1L << 6 ),    // Indicates that text has just been pasted
+    DP_SKIP_UPDATE        = ( 1L << 7 )     // Indicates that selection changes should not be processed
+} DPFLAGS;
 
 
 
 class SAPI {
     
     private:
+        // Win32-related handles
+        HACCEL m_hAccelTable;               // handle to the accelerators
+        HINSTANCE m_hInst;                  // handle to the current instance
+
+        // Application state
+        DWORD m_dwFlags;                  // DPFLAGS (see above)
+        TCHAR *m_pszFile;                   // Name of the current file
 
         // Initialization methods
         HRESULT InitializeSAPIObjs();   // Set up the SAPI objects
         HRESULT InitSAPICallback( HWND hWnd );   // Hook up the client for SAPI notifications
         // SAPI objects
         CComPtr<ISpRecognizer> m_cpRecoEngine;    // SR engine
-        CComPtr<ISpRecoContext> m_cpDictRecoCtxt;   // Recognition context for dictation
+        CComPtr<ISpRecoContext> m_cpDictRecoCtxt; // Recognition context for dictation
+        CRecoEventMgr *m_pRecoEventMgr;           // Handles placement of recognized text (recomgr.cpp)
 };

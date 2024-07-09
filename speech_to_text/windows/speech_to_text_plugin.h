@@ -7,6 +7,8 @@
 #include <string>
 
 #include <memory>
+#include "sapi.h"
+
 
 namespace speech_to_text {
 

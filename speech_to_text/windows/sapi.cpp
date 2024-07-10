@@ -158,6 +158,24 @@ HRESULT SAPI::InitializeSAPIObjs()
 #endif
         return hr;
     }
+  
+    // Load the appropriate grammars
+    hr = LoadGrammars();
+    if ( FAILED( hr ) )
+    {
+        HRESULT hr2 = ERROR_RESOURCE_LANG_NOT_FOUND;
+        if (( SPERR_UNSUPPORTED_LANG == hr ) || ( ERROR_RESOURCE_LANG_NOT_FOUND == (0xffff & hr)))
+        {
+            // MessageBoxFromResource( m_hClient, IDS_UNSUPPORTEDLANG, SAPIINITERR, MB_ICONEXCLAMATION );
+        }
+#ifdef _DEBUG
+        else
+        {
+         std::cerr << "Error loading the grammars" << std::endl;
+        }
+#endif
+        return hr;
+    }
 
     return hr;
 }

@@ -125,5 +125,36 @@ HRESULT SAPI::InitializeSAPIObjs()
         }
     }
 
+
+    // Set up the reco context for retaining audio in the dictation reco context.
+    // Get the stream format for 8kHz, 8-bit mono
+    GUID guidFormatId = GUID_NULL;
+    WAVEFORMATEX *pWaveFormatEx = NULL;
+    hr = SpConvertStreamFormatEnum(SPSF_8kHz8BitMono, &guidFormatId, &pWaveFormatEx);
+    if ( FAILED( hr ) )
+    {
+        #ifdef _DEBUG
+            std::cerr << "Error converting stream format" << std::endl;
+        #endif
+    }
+    else
+    {
+        // Tell the reco contexts to retain its audio in this format
+        hr = m_cpDictRecoCtxt->SetAudioOptions( SPAO_RETAIN_AUDIO, &guidFormatId, pWaveFormatEx );
+    }
+    
+    #ifdef _DEBUG
+        if ( FAILED( hr ) )
+        {
+            std::cerr << "Error setting retained audio data option for dictation reco context" << std::endl;
+        }
+    #endif
+
+    ::CoTaskMemFree(pWaveFormatEx);
+    if ( FAILED( hr ) )
+    {
+        return hr;
+    }
+
     return hr;
 }

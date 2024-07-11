@@ -19,7 +19,8 @@
 #include "tom.h"
 #include "recomgr.h"
 #include "textrunlist.h"
-
+#include <flutter/plugin_registrar_windows.h>
+#include <flutter/method_channel.h>
 
 // Flags that determine the state of the app
 typedef enum DPFLAGS
@@ -44,13 +45,29 @@ typedef enum DPFLAGS
     GID_CC              // ID for the C&C grammar that's active when dictation is not
 };
 
+typedef std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> FlutterResult;
 
 // Constants
 #define WM_DICTRECOEVENT    WM_USER + 1
 
 class SAPI {
+
+    public:
+
+        static SAPI& getInstance()
+        {
+            static SAPI instance;
+            return instance;
+        }
+        // Initialization method
+        HRESULT InitializeSAPIObjs();   // Set up the SAPI objects
+        SAPI(SAPI const&) = delete;
+        void operator=(SAPI const&) = delete;
     
     private:
+        SAPI() {
+        }
+
         // Win32-related handles
         HACCEL m_hAccelTable;               // handle to the accelerators
         HINSTANCE m_hInst;                  // handle to the current instance
@@ -60,8 +77,6 @@ class SAPI {
         DWORD m_dwFlags;                  // DPFLAGS (see above)
         TCHAR *m_pszFile;                   // Name of the current file
 
-        // Initialization methods
-        HRESULT InitializeSAPIObjs();   // Set up the SAPI objects
         HRESULT InitSAPICallback( HWND hWnd );   // Hook up the client for SAPI notifications
         HRESULT LoadGrammars();           // Load the various grammars
 
@@ -71,7 +86,7 @@ class SAPI {
         CComPtr<ISpRecoContext> m_cpDictRecoCtxt; // Recognition context for dictation
         CRecoEventMgr *m_pRecoEventMgr;           // Handles placement of recognized text (recomgr.cpp)
         CComPtr<ISpRecoGrammar> m_cpDictGrammar;    // Dictation grammar 
-        const ULONGLONG m_ullDictInterest;          // Events in which DictationPad will be interested in
+        ULONGLONG m_ullDictInterest;          // Events in which DictationPad will be interested in
         CTextRunList *m_pTextRunList;               // List of dictated and non-dictated runs (textrunlist.cpp)
 
 

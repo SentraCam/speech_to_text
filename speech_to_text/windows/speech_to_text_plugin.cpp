@@ -11,6 +11,7 @@
 
 #include <memory>
 #include <sstream>
+#include "sapi.h"
 
 namespace speech_to_text {
 
@@ -41,12 +42,14 @@ void SpeechToTextPlugin::HandleMethodCall(
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
   
   const std::string methodName = method_call.method_name();
-
   if (methodName.compare(SpeechToTextPlugin::hasPermissionMethod) == 0) {
    result->NotImplemented();
   } 
   else if (methodName.compare(SpeechToTextPlugin::initializeMethod) == 0) {
-   result->NotImplemented();
+  HRESULT response = SAPI::getInstance().InitializeSAPIObjs();
+    if (response == S_OK){
+      result->Success();
+    }
   } 
   else if (methodName.compare(SpeechToTextPlugin::listenMethod) == 0) {
    result->NotImplemented();

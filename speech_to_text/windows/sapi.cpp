@@ -166,7 +166,8 @@ HRESULT SAPI::InitializeSAPIObjs()
         HRESULT hr2 = ERROR_RESOURCE_LANG_NOT_FOUND;
         if (( SPERR_UNSUPPORTED_LANG == hr ) || ( ERROR_RESOURCE_LANG_NOT_FOUND == (0xffff & hr)))
         {
-            // MessageBoxFromResource( m_hClient, IDS_UNSUPPORTEDLANG, SAPIINITERR, MB_ICONEXCLAMATION );
+          std::cerr << "IDS Unsupported" << std::endl;
+          // send back to flutter there is an error
         }
 #ifdef _DEBUG
         else

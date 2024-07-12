@@ -53,21 +53,14 @@ typedef std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> FlutterR
 class SAPI {
 
     public:
-
-        static SAPI& getInstance()
-        {
-            static SAPI instance;
-            return instance;
+        SAPI() {
         }
         // Initialization method
         HRESULT InitializeSAPIObjs();   // Set up the SAPI objects
-        SAPI(SAPI const&) = delete;
-        void operator=(SAPI const&) = delete;
+
     
     private:
-        SAPI() {
-        }
-
+        
         // Win32-related handles
         HACCEL m_hAccelTable;               // handle to the accelerators
         HINSTANCE m_hInst;                  // handle to the current instance

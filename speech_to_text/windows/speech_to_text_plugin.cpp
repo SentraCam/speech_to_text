@@ -40,13 +40,13 @@ SpeechToTextPlugin::~SpeechToTextPlugin() {}
 void SpeechToTextPlugin::HandleMethodCall(
     const flutter::MethodCall<flutter::EncodableValue> &method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
-  
+  SAPI sapiHandler = SAPI::SAPI();
   const std::string methodName = method_call.method_name();
   if (methodName.compare(SpeechToTextPlugin::hasPermissionMethod) == 0) {
    result->NotImplemented();
   } 
   else if (methodName.compare(SpeechToTextPlugin::initializeMethod) == 0) {
-  HRESULT response = SAPI::getInstance().InitializeSAPIObjs();
+  HRESULT response = sapiHandler.InitializeSAPIObjs();
     if (response == S_OK){
       result->Success();
     }

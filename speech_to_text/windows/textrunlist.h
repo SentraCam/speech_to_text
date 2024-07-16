@@ -13,6 +13,9 @@
 ******************************************************************************/
 #pragma once
 
+#ifndef FLUTTER_PLUGIN_SPEECH_TO_TEXT_PLUGIN_TEXTRUNLIST_H_
+#define FLUTTER_PLUGIN_SPEECH_TO_TEXT_PLUGIN_TEXTRUNLIST_H_
+
 #include "TextRun.h"
 
 // Nodes for the CTextRunList
@@ -103,3 +106,5 @@ class CTextRunList
                                                 // to retrieve ITextRange pointers.
 };  /* class CTextRunList */
 
+
+#endif

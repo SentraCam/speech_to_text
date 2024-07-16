@@ -58,8 +58,8 @@ typedef std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> FlutterR
 class SAPI {
 
     public:
-        SAPI(){}
-       virtual ~SAPI() = default;
+       SAPI();
+       virtual ~SAPI();
 
         // Disallow copy and move.
         SAPI(const SAPI&) = delete;

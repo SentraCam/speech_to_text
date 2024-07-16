@@ -12,6 +12,9 @@
 *****************************************************************************/
 #pragma once
 
+#ifndef FLUTTER_PLUGIN_SPEECH_TO_TEXT_PLUGIN_TEXTRUN_H_
+#define FLUTTER_PLUGIN_SPEECH_TO_TEXT_PLUGIN_TEXTRUN_H_
+
 #include <atlbase.h>
 
 #include <TOM.h>
@@ -97,3 +100,4 @@ class CTextRun
         DWORD               m_dwRefCount;
 };  /* class CTextRun */
 
+#endif

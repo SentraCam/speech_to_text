@@ -5,6 +5,9 @@
 #pragma warning ( disable : 4244 )
 #pragma warning(disable : 4996)
 
+#ifndef FLUTTER_PLUGIN_SPEECH_TO_TEXT_PLUGIN_SAPI_H_
+#define FLUTTER_PLUGIN_SPEECH_TO_TEXT_PLUGIN_SAPI_H_
+
 // Windows Header Files:
 #include <atlbase.h>
 
@@ -50,11 +53,18 @@ typedef std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> FlutterR
 // Constants
 #define WM_DICTRECOEVENT    WM_USER + 1
 
+
+
 class SAPI {
 
     public:
-        SAPI() {
-        }
+        SAPI(){}
+       virtual ~SAPI() = default;
+
+        // Disallow copy and move.
+        SAPI(const SAPI&) = delete;
+        SAPI& operator=(const SAPI&) = delete;
+
         // Initialization method
         HRESULT InitializeSAPIObjs();   // Set up the SAPI objects
 
@@ -84,3 +94,5 @@ class SAPI {
 
 
 };
+
+#endif

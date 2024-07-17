@@ -1,7 +1,7 @@
 #include "sapi_helper.h"
 #include <iostream>
 
-HRESULT SAPI::InitializeSAPIObjs()
+HRESULT SAPIHelper::InitializeSAPIObjs()
 {
     HRESULT hr = S_OK;
 
@@ -48,7 +48,7 @@ HRESULT SAPI::InitializeSAPIObjs()
         }
     }
 
-    // Release the SAPI object in the reverse order in which they
+    // Release the SAPIHelper object in the reverse order in which they
     // were created.  This will ensure that everything really does
     // get released
     if (m_cpDictRecoCtxt)
@@ -149,12 +149,12 @@ HRESULT SAPI::InitializeSAPIObjs()
         return hr;
     }
 
-    // This allows the main window to be notified of SAPI events
+    // This allows the main window to be notified of SAPIHelper events
     hr = InitSAPICallback(m_hClient);
     if (FAILED(hr))
     {
 #ifdef _DEBUG
-        std::cerr << "Error setting up SAPI event notification" << std::endl;
+        std::cerr << "Error setting up SAPIHelper event notification" << std::endl;
 #endif
         return hr;
     }
@@ -181,7 +181,7 @@ HRESULT SAPI::InitializeSAPIObjs()
     return hr;
 }
 
-HRESULT SAPI::InitSAPICallback(HWND hWnd)
+HRESULT SAPIHelper::InitSAPICallback(HWND hWnd)
 {
     // Set recognition notification for dictation
     CComPtr<ISpNotifyTranslator> cpDictNotify;
@@ -203,7 +203,7 @@ HRESULT SAPI::InitSAPICallback(HWND hWnd)
     return hr;
 }
 
-HRESULT SAPI::LoadGrammars()
+HRESULT SAPIHelper::LoadGrammars()
 {
     // Create the grammar for general dictation, and make it the statistical
     // language model for dictation

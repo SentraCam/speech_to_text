@@ -55,18 +55,18 @@ typedef std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> FlutterR
 
 
 
-class SAPI {
+class SAPIHelper {
 
     public:
-       SAPI();
-       virtual ~SAPI();
+       SAPIHelper();
+       virtual ~SAPIHelper();
 
         // Disallow copy and move.
-        SAPI(const SAPI&) = delete;
-        SAPI& operator=(const SAPI&) = delete;
+        SAPIHelper(const SAPIHelper&) = delete;
+        SAPIHelper& operator=(const SAPIHelper&) = delete;
 
         // Initialization method
-        HRESULT InitializeSAPIObjs();   // Set up the SAPI objects
+        HRESULT InitializeSAPIObjs();   // Set up the SAPIHelper objects
 
     
     private:
@@ -80,11 +80,11 @@ class SAPI {
         DWORD m_dwFlags;                  // DPFLAGS (see above)
         TCHAR *m_pszFile;                   // Name of the current file
 
-        HRESULT InitSAPICallback( HWND hWnd );   // Hook up the client for SAPI notifications
+        HRESULT InitSAPICallback( HWND hWnd );   // Hook up the client for SAPIHelper notifications
         HRESULT LoadGrammars();           // Load the various grammars
 
         
-        // SAPI objects
+        // SAPIHelper objects
         CComPtr<ISpRecognizer> m_cpRecoEngine;    // SR engine
         CComPtr<ISpRecoContext> m_cpDictRecoCtxt; // Recognition context for dictation
         CRecoEventMgr *m_pRecoEventMgr;           // Handles placement of recognized text (recomgr.cpp)

@@ -3,7 +3,6 @@
 #include <flutter/plugin_registrar_windows.h>
 
 #include "speech_to_text_plugin.h"
-#include "sapi.h"
 void SpeechToTextPluginCApiRegisterWithRegistrar(
     FlutterDesktopPluginRegistrarRef registrar) {
   speech_to_text::SpeechToTextPlugin::RegisterWithRegistrar(

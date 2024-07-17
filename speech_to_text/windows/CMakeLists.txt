@@ -20,6 +20,17 @@ set(PLUGIN_NAME "speech_to_text_plugin")
 list(APPEND PLUGIN_SOURCES
   "speech_to_text_plugin.cpp"
   "speech_to_text_plugin.h"
+  "sapi_helper.h"
+  "sapi_helper.cpp"
+  "recomgr.h"
+  "recomgr.cpp"
+  "textrun.h"
+  "textrun.cpp"
+  "textrunlist.cpp"
+  "textrunlist.h"
+  "stdafx.cpp"
+  "stdafx.h"
+  "resource.h"
 )
 
 # Define the plugin library target. Its name must not be changed (see comment

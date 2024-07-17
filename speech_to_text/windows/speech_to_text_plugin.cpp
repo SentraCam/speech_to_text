@@ -11,7 +11,7 @@
 
 #include <memory>
 #include <sstream>
-#include "sapi.h"
+#include "sapi_helper.h"
 
 namespace speech_to_text {
 

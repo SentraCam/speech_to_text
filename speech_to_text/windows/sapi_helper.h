@@ -58,12 +58,8 @@ typedef std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> FlutterR
 class SAPIHelper {
 
     public:
-       SAPIHelper();
-       virtual ~SAPIHelper();
-
-        // Disallow copy and move.
-        SAPIHelper(const SAPIHelper&) = delete;
-        SAPIHelper& operator=(const SAPIHelper&) = delete;
+       SAPIHelper(){};
+       virtual ~SAPIHelper(){};
 
         // Initialization method
         HRESULT InitializeSAPIObjs();   // Set up the SAPIHelper objects

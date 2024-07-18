@@ -20,7 +20,7 @@ void SpeechToTextPlugin::RegisterWithRegistrar(
     flutter::PluginRegistrarWindows *registrar) {
   auto channel =
       std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-          registrar->messenger(), "speech_to_text",
+          registrar->messenger(), "plugin.csdcorp.com/speech_to_text",
           &flutter::StandardMethodCodec::GetInstance());
 
   auto plugin = std::make_unique<SpeechToTextPlugin>();

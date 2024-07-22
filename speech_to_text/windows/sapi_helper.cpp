@@ -4,7 +4,8 @@
 HRESULT SAPIHelper::InitializeSAPIObjs()
 {
     HRESULT hr = S_OK;
-
+    m_pTextRunList = new CTextRunList();
+    m_pRecoEventMgr = new CRecoEventMgr( m_hInst );
     // If we're waiting for a recognition, give up on it.
     if (m_pRecoEventMgr->IsProcessingPhrase() && (m_dwFlags & DP_DICTATION_MODE))
     {

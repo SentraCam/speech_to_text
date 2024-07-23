@@ -47,7 +47,8 @@ void SpeechToTextPlugin::HandleMethodCall(
    result->NotImplemented();
   } 
   else if (methodName.compare(SpeechToTextPlugin::initializeMethod) == 0) {
-  HRESULT response = sapiHandler.InitializeSAPIObjs();
+    bool debugLogging = SpeechToTextPlugin::GetDebugLoggingArgument(method_call);
+    HRESULT response = sapiHandler.Initialize(debugLogging);
     if (response == S_OK){
       result->Success();
     }
@@ -72,6 +73,19 @@ void SpeechToTextPlugin::HandleMethodCall(
   else {
     result->NotImplemented();
   }
+}
+
+
+bool SpeechToTextPlugin::GetDebugLoggingArgument(const flutter::MethodCall<>& method_call) {
+  bool debugLogging = false;
+  const auto* arguments = std::get_if<flutter::EncodableMap>(method_call.arguments());
+  if (arguments) {
+    auto logging_it = arguments->find(flutter::EncodableValue("debugLogging"));
+    if (logging_it != arguments->end()) {
+      debugLogging = std::get<bool>(logging_it->second);
+    }
+  }
+  return debugLogging;
 }
 
 }  // namespace speech_to_text

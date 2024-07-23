@@ -28,6 +28,11 @@ class SpeechToTextPlugin : public flutter::Plugin {
       const flutter::MethodCall<flutter::EncodableValue> &method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
 
+
+
+  private:
+    bool GetDebugLoggingArgument(const flutter::MethodCall<>& method_call);
+
     const std::string hasPermissionMethod = "has_permission";
     const std::string initializeMethod = "initialize";
     const std::string listenMethod = "listen";
@@ -43,6 +48,7 @@ class SpeechToTextPlugin : public flutter::Plugin {
     const std::string doneStatus = "done";
 
 };
+
 
 }  // namespace speech_to_text
 

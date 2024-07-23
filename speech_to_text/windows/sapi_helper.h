@@ -61,12 +61,13 @@ class SAPIHelper {
        SAPIHelper(){};
        virtual ~SAPIHelper(){};
 
-        // Initialization method
-        HRESULT InitializeSAPIObjs();   // Set up the SAPIHelper objects
+        HRESULT Initialize(bool debugLoggingParam);  
 
     
     private:
         
+        bool debugLogging = false;
+
         // Win32-related handles
         HACCEL m_hAccelTable;               // handle to the accelerators
         HINSTANCE m_hInst;                  // handle to the current instance
@@ -78,6 +79,7 @@ class SAPIHelper {
 
         HRESULT InitSAPICallback( HWND hWnd );   // Hook up the client for SAPIHelper notifications
         HRESULT LoadGrammars();           // Load the various grammars
+        void LogMessage(std::string message);
 
         
         // SAPIHelper objects

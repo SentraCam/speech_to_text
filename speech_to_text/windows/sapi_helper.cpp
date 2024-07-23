@@ -1,9 +1,16 @@
 #include "sapi_helper.h"
 #include <iostream>
 
-HRESULT SAPIHelper::InitializeSAPIObjs()
+void SAPIHelper::LogMessage(std::string message) {
+    if (debugLogging){
+         std::cerr << " " + message << std::endl;
+    }
+}
+
+HRESULT SAPIHelper::Initialize(bool debugLoggingParam)
 {
     HRESULT hr = S_OK;
+    this->debugLogging = debugLoggingParam;
     m_pTextRunList = new CTextRunList();
     m_pRecoEventMgr = new CRecoEventMgr( m_hInst );
     // If we're waiting for a recognition, give up on it.
@@ -42,9 +49,7 @@ HRESULT SAPIHelper::InitializeSAPIObjs()
 
         if (FAILED(hr))
         {
-#ifdef _DEBUG
-            std::cerr << "Error serializing the text run list." << std::endl;
-#endif
+            LogMessage("Error serializing the text run list.");
             return hr;
         }
     }
@@ -79,18 +84,14 @@ HRESULT SAPIHelper::InitializeSAPIObjs()
 
     if (FAILED(hr))
     {
-#ifdef _DEBUG
-        std::cerr << "Error creating reco engine" << std::endl;
-#endif
+        LogMessage("Error creating reco engine");
         return hr;
     }
 
     hr = m_cpRecoEngine->CreateRecoContext(&m_cpDictRecoCtxt);
     if (FAILED(hr))
     {
-#ifdef _DEBUG
-        std::cerr << "Error creating dictation reco context" << std::endl;
-#endif
+        LogMessage("Error creating dictation reco context");
         return hr;
     }
 
@@ -113,9 +114,7 @@ HRESULT SAPIHelper::InitializeSAPIObjs()
 
         if (FAILED(hr))
         {
-#ifdef _DEBUG
-            std::cerr << "Error deserializing the text run list" << std::endl;
-#endif
+            LogMessage("Error deserializing the text run list");
             return hr;
         }
     }
@@ -127,9 +126,7 @@ HRESULT SAPIHelper::InitializeSAPIObjs()
     hr = SpConvertStreamFormatEnum(SPSF_8kHz8BitMono, &guidFormatId, &pWaveFormatEx);
     if (FAILED(hr))
     {
-#ifdef _DEBUG
-        std::cerr << "Error converting stream format" << std::endl;
-#endif
+        LogMessage("Error converting stream format");
     }
     else
     {
@@ -137,12 +134,10 @@ HRESULT SAPIHelper::InitializeSAPIObjs()
         hr = m_cpDictRecoCtxt->SetAudioOptions(SPAO_RETAIN_AUDIO, &guidFormatId, pWaveFormatEx);
     }
 
-#ifdef _DEBUG
     if (FAILED(hr))
     {
-        std::cerr << "Error setting retained audio data option for dictation reco context" << std::endl;
+        LogMessage("Error setting retained audio data option for dictation reco context");
     }
-#endif
 
     ::CoTaskMemFree(pWaveFormatEx);
     if (FAILED(hr))
@@ -154,9 +149,7 @@ HRESULT SAPIHelper::InitializeSAPIObjs()
     hr = InitSAPICallback(m_hClient);
     if (FAILED(hr))
     {
-#ifdef _DEBUG
-        std::cerr << "Error setting up SAPIHelper event notification" << std::endl;
-#endif
+        LogMessage("Error setting up SAPIHelper event notification");
         return hr;
     }
   
@@ -167,15 +160,13 @@ HRESULT SAPIHelper::InitializeSAPIObjs()
         HRESULT hr2 = ERROR_RESOURCE_LANG_NOT_FOUND;
         if (( SPERR_UNSUPPORTED_LANG == hr ) || ( ERROR_RESOURCE_LANG_NOT_FOUND == (0xffff & hr)))
         {
-          std::cerr << "IDS Unsupported" << std::endl;
+            LogMessage("IDS Unsupported"); 
           return hr2;
         }
-#ifdef _DEBUG
         else
         {
-         std::cerr << "Error loading the grammars" << std::endl;
+            LogMessage( "Error loading the grammars");
         }
-#endif
         return hr;
     }
 

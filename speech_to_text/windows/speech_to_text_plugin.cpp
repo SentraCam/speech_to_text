@@ -40,7 +40,7 @@ SpeechToTextPlugin::~SpeechToTextPlugin() {}
 void SpeechToTextPlugin::HandleMethodCall(
     const flutter::MethodCall<flutter::EncodableValue> &method_call,
     std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
-  SAPIHelper sapiHandler = SAPIHelper::SAPIHelper();
+  SAPIHelper* sapiHandler = SAPIHelper::getInstance();
   const std::string methodName = method_call.method_name();
   std::cout << "Follow this command: " << methodName;
   if (methodName.compare(SpeechToTextPlugin::hasPermissionMethod) == 0) {
@@ -48,7 +48,7 @@ void SpeechToTextPlugin::HandleMethodCall(
   } 
   else if (methodName.compare(SpeechToTextPlugin::initializeMethod) == 0) {
     bool debugLogging = SpeechToTextPlugin::GetDebugLoggingArgument(method_call);
-    HRESULT response = sapiHandler.Initialize(debugLogging);
+    HRESULT response = sapiHandler->Initialize(debugLogging);
     if (response == S_OK){
       result->Success();
     }

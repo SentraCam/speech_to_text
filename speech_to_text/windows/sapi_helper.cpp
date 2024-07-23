@@ -1,6 +1,8 @@
 #include "sapi_helper.h"
 #include <iostream>
 
+SAPIHelper* SAPIHelper::instance = NULL;
+
 void SAPIHelper::LogMessage(std::string message) {
     if (debugLogging){
          std::cerr << " " + message << std::endl;

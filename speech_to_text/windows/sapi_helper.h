@@ -58,14 +58,29 @@ typedef std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> FlutterR
 class SAPIHelper {
 
     public:
-       SAPIHelper(){};
-       virtual ~SAPIHelper(){};
 
+        // No copy constructor to prevent copying
+        SAPIHelper(const SAPIHelper&) = delete;
+
+        static SAPIHelper* getInstance() {
+            if (instance == NULL) {
+            // Create the instance on first call
+            instance = new SAPIHelper();
+            }
+            return instance;
+        }
+            
         HRESULT Initialize(bool debugLoggingParam);  
 
     
     private:
-        
+        SAPIHelper(){};
+        // Static instance pointer (initialized on first use)
+        static SAPIHelper* instance;
+
+       
+        SAPIHelper& operator=(const SAPIHelper&) = delete;
+
         bool debugLogging = false;
 
         // Win32-related handles

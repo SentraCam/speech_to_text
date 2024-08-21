@@ -19,6 +19,15 @@ class LocaleName {
   final String name;
 
   LocaleName(this.localeId, this.name);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is LocaleName && localeId == other.localeId;
+  }
+
+  @override
+  int get hashCode => localeId.hashCode;
 }
 
 /// Notified as words are recognized with the current set of recognized words.
@@ -439,7 +448,7 @@ class SpeechToText {
     _lastRecognized = '';
     _userEnded = false;
     _lastSpeechResult = null;
-    _cancelOnError = cancelOnError;
+    _cancelOnError = listenOptions?.cancelOnError ?? cancelOnError;
     _recognized = false;
     _notifiedFinal = false;
     _notifiedDone = false;
@@ -448,14 +457,17 @@ class SpeechToText {
     _partialResults = partialResults;
     _notifyFinalTimer?.cancel();
     _notifyFinalTimer = null;
-    try {
-      var started = await SpeechToTextPlatform.instance.listen(
+    final usedOptions = listenOptions ??
+        SpeechListenOptions(
           partialResults: partialResults || null != pauseFor,
           onDevice: onDevice,
-          listenMode: listenMode.index,
+          listenMode: listenMode,
           sampleRate: sampleRate,
-          localeId: localeId,
-          options: listenOptions);
+          cancelOnError: cancelOnError,
+        );
+    try {
+      var started = await SpeechToTextPlatform.instance
+          .listen(localeId: localeId, options: usedOptions);
       if (started) {
         _listenStartedAt = clock.now().millisecondsSinceEpoch;
         _lastSpeechEventAt = _listenStartedAt;
@@ -578,6 +590,7 @@ class SpeechToText {
           return LocaleName(components[0], components[1]);
         })
         .where((item) => item != null)
+        .toSet()
         .toList()
         .cast<LocaleName>();
     if (filteredLocales.isNotEmpty) {
